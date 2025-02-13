@@ -1,5 +1,5 @@
 import express from 'express';
-import { PostsController } from '../controllers/posts.controller';
+import { PostsController } from '../controllers/posts.controller.js';
 
 const router = express.Router();
 const postsController = new PostsController(); // PostsController를 인스턴스화 시킨다.
