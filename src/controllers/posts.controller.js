@@ -26,4 +26,44 @@ export class PostsController {
       next(error);
     }
   }
+
+  // 게시글 상세 조회 API
+  async getPostById(req, res, next) {
+    try {
+      const { postId } = req.params;
+
+      const post = await postsService.findPostById(postId);
+
+      return res.status(200).json(post);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updatePost(req, res, next) {
+    try {
+      const { postId } = req.params;
+
+      const { password, title, content } = req.body;
+
+      const updatedPost = await postsService.updatePost(postId, password, title, content);
+
+      return res.status(200).json(updatedPost);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deletePost(req, res, next) {
+    try {
+      const { postId } = req.param;
+      const { password } = req.body;
+
+      const deletedPost = await postsService.deletePost(postId, password);
+
+      return res.status(200).json(deletedPost);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
