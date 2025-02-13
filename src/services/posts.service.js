@@ -22,15 +22,15 @@ export class PostsService {
   }
 
   async createPost(nickname, password, title, content) {
-    const createPost = await this.postsRepository.createPost(nickname, password, title, content);
+    const createdPost = await this.postsRepository.createPost(nickname, password, title, content);
 
     return {
-      postId: createPost.postId,
-      nickname: createPost.nickname,
-      title: createPost.title,
-      content: createPost.content,
-      createdAt: createPost.createAt,
-      updatedAt: createPost.updatedAt,
+      postId: createdPost.postId,
+      nickname: createdPost.nickname,
+      title: createdPost.title,
+      content: createdPost.content,
+      createdAt: createdPost.createdAt,
+      updatedAt: createdPost.updatedAt,
     };
   }
 }
