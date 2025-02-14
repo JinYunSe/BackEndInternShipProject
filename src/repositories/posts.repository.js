@@ -1,22 +1,24 @@
-import { prisma } from '../utils/prisma/index.js';
-
 export class PostsRepository {
-  async findAllPosts() {
-    const posts = await prisma.posts.findMany();
-
-    return posts;
+  constructor(prisma) {
+    this.prisma = prisma;
   }
 
-  async findPostById(postId) {
-    const post = await prisma.posts.findUnique({
+  findAllPosts = async () => {
+    const posts = await this.prisma.posts.findMany();
+
+    return posts;
+  };
+
+  findPostById = async (postId) => {
+    const post = await this.prisma.posts.findUnique({
       where: { postId: +postId },
     });
 
     return post;
-  }
+  };
 
-  async createPost(nickname, password, title, content) {
-    const createdPosts = await prisma.posts.create({
+  createPost = async (nickname, password, title, content) => {
+    const createdPosts = await this.prisma.posts.create({
       data: {
         nickname,
         password,
@@ -26,10 +28,10 @@ export class PostsRepository {
     });
 
     return createdPosts;
-  }
+  };
 
-  async updatePost(postId, password, title, content) {
-    const updatedPost = await prisma.posts.update({
+  updatePost = async (postId, password, title, content) => {
+    const updatedPost = await this.prisma.posts.update({
       where: {
         postId: +postId,
         password,
@@ -41,10 +43,10 @@ export class PostsRepository {
     });
 
     return updatedPost;
-  }
+  };
 
-  async deletePost(postId, password) {
-    const deletedPost = await prisma.posts.delete({
+  deletePost = async (postId, password) => {
+    const deletedPost = await this.prisma.posts.delete({
       where: {
         postId: +postId,
         password,
@@ -52,5 +54,5 @@ export class PostsRepository {
     });
 
     return deletedPost;
-  }
+  };
 }
