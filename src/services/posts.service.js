@@ -1,7 +1,7 @@
-import { PostsRepository } from '../repositories/posts.repository.js';
-
 export class PostsService {
-  postsRepository = new PostsRepository();
+  constructor(postsRepository) {
+    this.postsRepository = postsRepository;
+  }
 
   findAllPosts = async () => {
     const posts = await this.postsRepository.findAllPosts();
