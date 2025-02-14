@@ -29,12 +29,4 @@ export class UserRepository {
 
     return signUpUser;
   };
-
-  login = async (userName, password) => {
-    const user = await this.prisma.user.findUnique({
-      where: { userName, password },
-    });
-
-    return user;
-  };
 }
