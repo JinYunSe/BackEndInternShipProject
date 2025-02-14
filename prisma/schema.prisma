@@ -13,20 +13,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id Int @id @default(autoincrement())
-  userName String @unique
-  password String
-  nickname String
-  authorityName String @default("ROLE_USER")
-}
-
-model Posts {
-  postId    Int      @id @default(autoincrement())
-  title     String
-  content   String   @db.Text
+model User {
+  id        Int      @id @default(autoincrement())
+  userName  String   @unique
   nickname  String
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  authorities Authority[]
+}
+model Authority {
+  id            Int       @id @default(autoincrement())
+  authorityName String    @unique
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id])
 }

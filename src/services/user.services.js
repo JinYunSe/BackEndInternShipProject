@@ -9,8 +9,6 @@ export class UserService {
   };
 
   signUp = async (userName, password, nickname) => {
-    if (!userName || !password || !nickname) return '올바르지 않은 입력 입니다.';
-
     const existUser = await this.userRepository.findUserByUserName(userName);
 
     if (existUser) return '존재하는 아이디 입니다.';
@@ -20,15 +18,14 @@ export class UserService {
     return {
       username: signUpUser.userName,
       nickname: signUpUser.nickname,
-      authorities: {
-        authorityName: signUpUser.authorityName,
-      },
+      authorities: signUpUser.authorities.map((authority) => ({
+        // authorities 배열 가공
+        authorityName: authority.authorityName,
+      })),
     };
   };
 
   login = async (userName, password) => {
-    if (!userName || !password) return '올바르지 않은 입력 입니다.';
-
     const loginUser = await this.userRepository.login(userName, password);
 
     if (!loginUser) return '존재하지 않는 계정입니다.';

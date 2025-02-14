@@ -16,8 +16,16 @@ export class UserRepository {
         userName,
         password,
         nickname,
+        authorities: {
+          create: [{ authorityName: 'ROLE_USER' }],
+        },
+      },
+      include: {
+        authorities: true,
       },
     });
+
+    console.log('객체 정보 확인', signUpUser);
 
     return signUpUser;
   };
