@@ -7,6 +7,7 @@ export class UserRepository {
     const user = await this.prisma.user.findUnique({
       where: { userName },
     });
+
     return user;
   };
 
@@ -24,8 +25,6 @@ export class UserRepository {
         authorities: true,
       },
     });
-
-    console.log('객체 정보 확인', signUpUser);
 
     return signUpUser;
   };
