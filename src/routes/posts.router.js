@@ -1,8 +1,14 @@
 import express from 'express';
+import { prisma } from '../utils/prisma/index.js';
+import { PostsRepository } from '../repositories/posts.repository.js';
+import { PostsService } from '../services/posts.service.js';
 import { PostsController } from '../controllers/posts.controller.js';
 
 const router = express.Router();
-const postsController = new PostsController(); // PostsController를 인스턴스화 시킨다.
+
+const postsRepository = new PostsRepository(prisma);
+const postsService = new PostsService(postsRepository);
+const postsController = new PostsController(postsService);
 
 /** 게시글 생성 API **/
 router.post('/', postsController.createPost);
