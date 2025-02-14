@@ -8,7 +8,7 @@ const port = 4000;
 
 app.use(LogMiddleware);
 app.use(express.json());
-app.use('/api', router);
+app.use(router);
 app.use(ErrorHandlingMiddleware);
 
 app.listen(port, () => {
