@@ -16,13 +16,13 @@ datasource db {
 model User {
   id        Int      @id @default(autoincrement())
   userName  String   @unique
-  nickname  String
+  nickName  String
   password  String
   authorities Authority[]
 }
 model Authority {
   id            Int       @id @default(autoincrement())
-  authorityName String    @unique
+  authorityName String
   userId        Int
   user          User      @relation(fields: [userId], references: [id])
 }

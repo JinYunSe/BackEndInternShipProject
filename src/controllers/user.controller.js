@@ -45,9 +45,9 @@ export class UserController {
   signUp = async (req, res, next) => {
     try {
       const validation = await signUpValidation.validateAsync(req.body);
-      const { username: userName, password, nickname } = validation;
+      const { username: userName, password, nickname: nickName } = validation;
 
-      const signUpUser = await this.userService.signUp(userName, password, nickname);
+      const signUpUser = await this.userService.signUp(userName, password, nickName);
 
       return res.status(201).json(signUpUser);
     } catch (error) {

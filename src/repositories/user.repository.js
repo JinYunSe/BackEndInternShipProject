@@ -10,12 +10,12 @@ export class UserRepository {
     return user;
   };
 
-  signUp = async (userName, password, nickname) => {
+  signUp = async (userName, password, nickName) => {
     const signUpUser = await this.prisma.user.create({
       data: {
         userName,
         password,
-        nickname,
+        nickName,
         authorities: {
           create: [{ authorityName: 'ROLE_USER' }],
         },

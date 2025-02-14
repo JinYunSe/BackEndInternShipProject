@@ -8,16 +8,18 @@ export class UserService {
     return user.username;
   };
 
-  signUp = async (userName, password, nickname) => {
+  signUp = async (userName, password, nickName) => {
     const existUser = await this.userRepository.findUserByUserName(userName);
 
     if (existUser) return '존재하는 아이디 입니다.';
 
-    const signUpUser = await this.userRepository.signUp(userName, password, nickname);
+    const signUpUser = await this.userRepository.signUp(userName, password, nickName);
+
+    console.log('nickName : ', signUpUser.nickName);
 
     return {
       username: signUpUser.userName,
-      nickname: signUpUser.nickname,
+      nickname: signUpUser.nickName,
       authorities: signUpUser.authorities.map((authority) => ({
         // authorities 배열 가공
         authorityName: authority.authorityName,
