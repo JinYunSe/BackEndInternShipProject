@@ -84,7 +84,10 @@ describe('Users Service Unit Test', () => {
 
     expect(mockUserRepository.findUserByUserName).toHaveBeenCalledWith('test1');
     expect(bcrypt.compare).toHaveBeenCalledWith('test1', 'hashedPassword');
-    expect(jwt.sign).toHaveBeenCalledWith({ userName: 'test1' }, process.env.JWT_SECRET);
+    expect(jwt.sign).toHaveBeenCalledWith(
+      { userName: 'test1' },
+      process.env.JWT_SECRET || 'JWTSECRET',
+    );
     expect(result).toEqual({ token: 'mockedToken' });
   });
 
