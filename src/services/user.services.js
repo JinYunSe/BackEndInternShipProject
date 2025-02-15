@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import CustomError from '../class/customError.js';
 
 export class UserService {
   constructor(userRepository) {
@@ -14,7 +15,7 @@ export class UserService {
   signUp = async (userName, password, nickName) => {
     const existUser = await this.userRepository.findUserByUserName(userName);
 
-    if (existUser) return '존재하는 아이디 입니다.';
+    if (existUser) throw new CustomError('존재하는 아이디 입니다.', 400);
 
     password = await bcrypt.hash(password, 10);
 
@@ -24,7 +25,6 @@ export class UserService {
       username: signUpUser.userName,
       nickname: signUpUser.nickName,
       authorities: signUpUser.authorities.map((authority) => ({
-        // authorities 배열 가공
         authorityName: authority.authorityName,
       })),
     };
@@ -33,10 +33,10 @@ export class UserService {
   login = async (userName, password) => {
     const loginUser = await this.userRepository.findUserByUserName(userName);
 
-    if (!loginUser) return '존재하지 않는 계정입니다.';
+    if (!loginUser) throw new CustomError('존재하지 않는 계정입니다.', 400);
 
     const check = await bcrypt.compare(password, loginUser.password);
-    if (!check) return '아이디와 비밀번호를 확인해주세요';
+    if (!check) throw new CustomError('아이디와 비밀번호를 확인해주세요.', 401);
 
     const token = jwt.sign({ userName: loginUser.userName }, process.env.JWT_SECRET);
 

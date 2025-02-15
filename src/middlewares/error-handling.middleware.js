@@ -1,5 +1,9 @@
-export default function (err, req, res, next) {
-  console.error('에러 발생 : ', err);
+import CustomError from '../class/customError.js';
 
-  res.status(500).json({ errorMessage: '서버 내부 에러가 발생했습니다.' });
+export default function (err, req, res, next) {
+  if (err instanceof CustomError) {
+    res.status(err.statusCode).json({ errorMessage: err.message });
+  } else {
+    res.status(500).json({ errorMessage: '서버 내부 에러가 발생했습니다.' });
+  }
 }

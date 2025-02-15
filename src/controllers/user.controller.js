@@ -1,4 +1,5 @@
 import joi from 'joi';
+import CustomError from '../class/customError.js';
 
 const signUpValidation = joi.object({
   username: joi
@@ -51,13 +52,10 @@ export class UserController {
 
       return res.status(201).json(signUpUser);
     } catch (error) {
-      // validation 오류일 경우 별도 오류 처리
-      if (error instanceof joi.ValidationError)
-        return res
-          .status(400)
-          .json('username 및 nickname은 한글, 소문자, 대문자, 공백만 가능합니다');
-
-      // 다른 오류들 처리
+      if (error instanceof joi.ValidationError) {
+        const customError = new CustomError('입력 정보를 확인해주세요', 400);
+        return next(customError);
+      }
       next(error);
     }
   };
@@ -72,11 +70,10 @@ export class UserController {
 
       return res.status(200).json(loginUser);
     } catch (error) {
-      // validation 오류일 경우 별도 오류 처리
-      if (error instanceof joi.ValidationError)
-        return res.status(400).json('username과 password를 확인해주세요');
-
-      // 다른 오류들 처리
+      if (error instanceof joi.ValidationError) {
+        const customError = new CustomError('username과 password를 확인해주세요', 400);
+        return next(customError);
+      }
       next(error);
     }
   };
