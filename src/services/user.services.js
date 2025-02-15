@@ -38,7 +38,7 @@ export class UserService {
     const check = await bcrypt.compare(password, loginUser.password);
     if (!check) throw new CustomError('아이디와 비밀번호를 확인해주세요.', 401);
 
-    const token = jwt.sign({ userName: loginUser.userName }, process.env.JWT_SECRET);
+    const token = jwt.sign({ userName: loginUser.userName }, 'JWTSECRET');
 
     // 현재 과제에서는 jwt token을 사용할 곳이 없네요...
 
