@@ -1,14 +1,14 @@
 import { expect, jest } from '@jest/globals';
 import { UserRepository } from '../../../src/repositories/user.repository.js';
 
-let mockUserRepository = {
+let mockUserPrisma = {
   user: {
     findUnique: jest.fn(),
     create: jest.fn(),
   },
 };
 
-let userRepository = new UserRepository(mockUserRepository);
+let userRepository = new UserRepository(mockUserPrisma);
 
 describe('User Repository Unit Test', () => {
   beforeEach(() => {
@@ -23,13 +23,13 @@ describe('User Repository Unit Test', () => {
       password: '$2b$10$vev1MGJuQDxb49r6cj/Ho.ay0.07ACzVQkgnJKyigZg8LAKiYS48W',
     };
 
-    mockUserRepository.user.findUnique.mockResolvedValue(mockUser);
+    mockUserPrisma.user.findUnique.mockResolvedValue(mockUser);
 
     const user = await userRepository.findUserByUserName('test1');
 
-    expect(mockUserRepository.user.findUnique).toHaveBeenCalledTimes(1);
+    expect(mockUserPrisma.user.findUnique).toHaveBeenCalledTimes(1);
 
-    expect(mockUserRepository.user.findUnique).toHaveBeenCalledWith({
+    expect(mockUserPrisma.user.findUnique).toHaveBeenCalledWith({
       where: { userName: 'test1' },
     });
     expect(user).toEqual(mockUser);
@@ -48,7 +48,7 @@ describe('User Repository Unit Test', () => {
       authorities: [{ authorities: 'ROLE_USER' }],
     };
 
-    mockUserRepository.user.create.mockResolvedValue(createdUser);
+    mockUserPrisma.user.create.mockResolvedValue(createdUser);
 
     const result = await userRepository.signUp(
       newUser.userName,
@@ -56,9 +56,9 @@ describe('User Repository Unit Test', () => {
       newUser.nickName,
     );
 
-    expect(mockUserRepository.user.create).toHaveBeenCalledTimes(1);
+    expect(mockUserPrisma.user.create).toHaveBeenCalledTimes(1);
 
-    expect(mockUserRepository.user.create).toHaveBeenCalledWith({
+    expect(mockUserPrisma.user.create).toHaveBeenCalledWith({
       data: {
         userName: newUser.userName,
         password: newUser.password,
